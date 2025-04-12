@@ -1,0 +1,7 @@
+*.exe
+*.class
+test.cpp
+test.java
+.vscode/
+.idea/
+*.iml

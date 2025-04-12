@@ -1,3 +1,10 @@
-# LeetCode-is-Problem
-This repo contains the codes of all the LeetCode Problems that I deemed worthy enough. 
-It doesn't include the puny problems that passed all the test cases on the first attempt. 
+# LeetCode-is-HARD 
+This repository contains solutions to various problems from LeetCode and GeeksForGeeks (GFG).
+
+- It organized by topics in Data Structures and Algorithms (DSA). 
+
+- The solutions are implemented in C++ and Java.
+
+- Includes Daily LeetCode Challenges and Problem of the day.
+  
+- Includes Problems from LeetCode Weekly and Bi-Weekly Contests.
