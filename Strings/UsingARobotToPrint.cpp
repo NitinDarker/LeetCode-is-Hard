@@ -13,6 +13,7 @@ class Solution {
         }
 
         stack<char> st; // string t
+      
         int p = 0;      // pointer for string s
 
         // i pointer is for frequency array
