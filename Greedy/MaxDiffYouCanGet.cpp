@@ -11,8 +11,8 @@ class Solution {
             num /= 10;
         }
         int n = arr.size();
-
         int it = n - 1;
+
         int msd9 = arr[it]; // Most significant digit
         int msd0 = arr[it];
         while (msd9 == 9 && it > 0) {
