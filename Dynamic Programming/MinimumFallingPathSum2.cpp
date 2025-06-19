@@ -1,8 +1,10 @@
-// https://leetcode.com/problems/minimum-falling-path-sum/description/
+// https://leetcode.com/problems/minimum-falling-path-sum-ii/description/
 #include <bits/stdc++.h>
 using namespace std;
 
 // Tabulation
+// Time Complexity -> O(N^3)
+// Space Complexity -> O(N^2)
 class Solution {
   public:
     int minFallingPathSum(vector<vector<int>> &matrix) {
@@ -16,7 +18,7 @@ class Solution {
                 }
                 int mini = INT_MAX;
                 for (int k = 0; k < n; k++) {
-                    if (k == j) continue;
+                    if (k == j)  continue;
                     mini = min(mini, matrix[i][j] + dp[i - 1][k]);
                 }
                 dp[i][j] = mini;
@@ -24,21 +26,21 @@ class Solution {
         }
         int mini = INT_MAX;
         for (int j = 0; j < n; j++) {
-            mini = min(dp[n-1][j], mini);
+            mini = min(dp[n - 1][j], mini);
         }
         return mini;
     }
 };
 
-// Space Optmizatino
+// Space Optmization + Time Optimization
+// Time Complexity -> O(N^2)
+// Space Complexity -> O(1)
 class Solution {
   public:
     int minFallingPathSum(vector<vector<int>> &matrix) {
         int n = matrix.size();
-        if (n == 0)
-            return 0;
-        if (n == 1)
-            return matrix[0][0];
+        if (n == 0) return 0;
+        if (n == 1) return matrix[0][0];
 
         for (int i = 1; i < n; i++) {
             int min1 = INT_MAX; // Mininum from previous row
