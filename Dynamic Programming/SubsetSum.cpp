@@ -39,3 +39,11 @@ bool subsetSum(vector<int> nums, int target) {
     }
     return dp[n-1][target];
 }
+
+int main() {
+    vector<int> arr = {1, 2, 3, 4};
+    int k = 4;
+    if (subsetSum(arr, k)) cout << "Subset with the given target found";
+    else cout << "Subset with the given target not found";
+    return 0;
+}
