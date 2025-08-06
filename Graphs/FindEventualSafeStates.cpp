@@ -1,42 +1,32 @@
-// 802. Find Eventual Safe State => LeetCode Daily Problem (Medium)
+// https://leetcode.com/problems/find-eventual-safe-states/
+#include <bits/stdc++.h>
+using namespace std;
 
-// There is a directed graph of n nodes with each node labeled from 0 to n - 1. 
-// The graph is represented by a 0-indexed 2D integer array graph where graph[i] is an integer array of nodes adjacent to node i,
-// meaning there is an edge from node i to each node in graph[i].
-// A node is a terminal node if there are no outgoing edges.
-// A node is a safe node if every possible path starting from that node leads to a terminal node (or another safe node).
-
-// Return an array containing all the safe nodes of the graph. The answer should be sorted in ascending order.
-
+// DFS -> Cycle Detection in Directed Graph
 class Solution {
-    bool dfs(vector<vector<int>> &neighbors, unordered_map<int, bool> &mpp, int node) {
-        if (neighbors[node].size() == 0) {
-            mpp[node] = true;
-            return true;
+    bool DFS(int node, vector<bool> &vis, vector<bool> &pathVis, vector<bool> &safe, vector<vector<int>> &graph, int V) {
+        vis[node] = true;
+        pathVis[node] = true;
+        for (int nei : graph[node]) {
+            if (!vis[nei] && DFS(nei, vis, pathVis, safe, graph, V)) return true;
+            else if (vis[nei] && pathVis[nei]) return true;
         }
-        if (mpp.find(node) != mpp.end()) {
-            return mpp[node];
-        }
-        mpp[node] = false;
-        for (int nei: neighbors[node]) {
-            if (dfs(neighbors, mpp, nei) == false) {
-                return false;
-            }
-        }
-        mpp[node] = true;
-        return true;
+        safe[node] = true;
+        pathVis[node] = false;
+        return false;
     }
 
-public:
-    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        int n = graph.size();
-        vector<int> safeNodes;
-        unordered_map<int, bool> mpp;
-        for (int i = 0; i < n; i++) {
-            if (dfs(graph, mpp, i)) {
-                safeNodes.push_back(i);
-            }
+  public:
+    vector<int> eventualSafeNodes(vector<vector<int>> graph) {
+        int V = graph.size();
+        vector<bool> vis(V, false), pathVis(V, false), safe(V, false);
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) DFS(i, vis, pathVis, safe, graph, V);
         }
-        return safeNodes;
+        vector<int> res;
+        for (int i = 0; i < V; i++) {
+            if (safe[i]) res.push_back(i);
+        }
+        return res;
     }
 };
