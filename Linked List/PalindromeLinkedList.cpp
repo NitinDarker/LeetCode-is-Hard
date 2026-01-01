@@ -13,17 +13,34 @@ class Solution {
     }
     
   public:
+    class Solution {
+    ListNode *reverse(ListNode *mid) {
+        ListNode *prev = NULL;
+        ListNode *curr = mid;
+        while (curr != NULL) {
+            ListNode *ahead = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = ahead;
+        }
+        return prev;
+    }
+    
+  public:
     bool isPalindrome(ListNode *head) {
-        ListNode *rev = reverse(head);
-
-        ListNode *l = head, *r = rev;
-        while (l != NULL) {
-            if (l->val != r->val) {
-                return false;
-            }
+        ListNode *slow = head, *fast = head;
+        while (fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        ListNode *tail = reverse(slow);
+        ListNode *l = head, *r = tail;
+        while (r != slow) {
+            if (l->val != r->val) return false;
             l = l->next;
             r = r->next;
         }
-        return true;
+        return l->val == r->val;
     }
+};
 };
