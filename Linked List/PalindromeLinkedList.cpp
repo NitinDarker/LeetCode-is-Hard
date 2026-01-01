@@ -1,19 +1,19 @@
 // https://leetcode.com/problems/palindrome-linked-list/
-class Solution {
-    ListNode *reverse(ListNode *head) {
-        ListNode *rev = NULL;
-        ListNode *ptr = head;
-        while (ptr != NULL) {
-            ListNode *newNode = new ListNode(ptr->val);
-            newNode->next = rev;
-            rev = newNode;
-            ptr = ptr->next;
-        }
-        return rev;
-    }
-    
+#include <bits/stdc++.h>
+using namespace std;
+
+class ListNode {
   public:
-    class Solution {
+    int val;
+    ListNode *next;
+
+    ListNode(int x) {
+        val = x;
+        next = NULL;
+    }
+};
+
+class Solution {
     ListNode *reverse(ListNode *mid) {
         ListNode *prev = NULL;
         ListNode *curr = mid;
@@ -42,5 +42,4 @@ class Solution {
         }
         return l->val == r->val;
     }
-};
 };
