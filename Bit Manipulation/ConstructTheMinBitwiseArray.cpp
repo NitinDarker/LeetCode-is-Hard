@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/construct-the-minimum-bitwise-array-ii/description/
+// https://leetcode.com/problems/construct-the-minimum-bitwise-array-ii/
 #include <bits/stdc++.h>
 using namespace std;
 
