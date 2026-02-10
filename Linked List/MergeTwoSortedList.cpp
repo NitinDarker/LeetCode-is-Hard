@@ -1,37 +1,35 @@
-// Merge two sorted linked lists -> GFG Daily Problem
+// https://leetcode.com/problems/merge-two-sorted-lists/description/
+#include <bits/stdc++.h>
+using namespace std;
 
-// Given the head of two sorted linked lists consisting of nodes respectively.
-//   The task is to merge both lists and return the head of the sorted merged list.
-
-struct Node {
-  int data;
-  struct Node *next;
-
-  Node(int x) {
-    data = x;
-    next = NULL;
-  }
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
 class Solution {
   public:
-    Node* sortedMerge(Node* head1, Node* head2) {
-        Node *sortedHead = new Node(-1); // Dummy Node
-        Node *newHead = sortedHead;
-        Node *l = head1, *r = head2;
-        while (l && r) {
-            if (l->data < r->data) {
-                sortedHead->next = l;
-                sortedHead = sortedHead->next;
-                l = l->next;
+    ListNode *mergeTwoLists(ListNode *list1, ListNode *list2) {
+        ListNode *dHead = new ListNode(-1);
+        ListNode *cur = dHead;
+        ListNode *p = list1, *q = list2;
+        while (p && q) {
+            if (p->val < q->val) {
+                cur->next = p;
+                p = p->next;
             } else {
-                sortedHead->next = r;
-                sortedHead = sortedHead->next;
-                r = r->next;
+                cur->next = q;
+                q = q->next;
             }
+            cur = cur->next;
         }
-        if (l) sortedHead->next = l;
-        if (r) sortedHead->next = r;
-        return newHead->next;
+        if (p) cur->next = p;
+        if (q) cur->next = q;
+        ListNode *merged = dHead->next;
+        delete dHead;
+        return merged;
     }
 };
