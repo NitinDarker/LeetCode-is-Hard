@@ -1,41 +1,35 @@
-// https://www.geeksforgeeks.org/problems/merge-k-sorted-linked-lists/1
+// https://leetcode.com/problems/merge-k-sorted-lists/
 #include <bits/stdc++.h>
 using namespace std;
 
-class Node {
-  public:
-    int data;
-    Node *next;
-
-    Node(int x) {
-        data = x;
-        next = NULL;
-    }
-};
-
-struct Compare {
-    bool operator()(Node *a, Node *b) {
-        return a->data > b->data;
-    }
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
 class Solution {
   public:
-    Node *mergeKLists(vector<Node *> &arr) {
-        int n = arr.size();
-        Node *head = new Node(-1);
-        Node *temp = head;
-        priority_queue<Node *, vector<Node *>, Compare> heap;
-        for (int i = 0; i < n; i++) {
-            heap.push(arr[i]);
+    ListNode *mergeKLists(vector<ListNode *> &lists) {
+        int n = lists.size();
+        priority_queue<pair<int, ListNode *>, vector<pair<int, ListNode *>>, greater<pair<int, ListNode *>>> heap;
+        ListNode *dHead = new ListNode(-1);
+        ListNode *merged = dHead;
+        for (auto it : lists) {
+            if (it) heap.push({it->val, it});
         }
         while (!heap.empty()) {
-            Node *cur = heap.top();
+            auto top = heap.top();
             heap.pop();
-            if (cur->next != NULL) heap.push(cur->next);
-            temp->next = cur;
-            temp = temp->next;
+            ListNode *node = top.second;
+            if (node->next) heap.push({node->next->val, node->next});
+            merged->next = node;
+            merged = merged->next;
         }
-        return head->next;
+        ListNode *mergedHead = dHead->next;
+        delete dHead;
+        return mergedHead;
     }
 };
