@@ -1,23 +1,18 @@
 // https://leetcode.com/problems/sliding-window-maximum/description/
-
 #include <bits/stdc++.h>
 using namespace std;
 
 class Solution {
   public:
-    vector<int> maxSlidingWindow(vector<int> &arr, int k) {
-        int n = arr.size();
+    vector<int> maxSlidingWindow(vector<int> &nums, int k) {
+        int n = nums.size();
         deque<int> dq;
         vector<int> res;
         for (int i = 0; i < n; i++) {
-            while (!dq.empty() && i-dq.front() >= k) {
-                dq.pop_front();
-            }
-            while (!dq.empty() && arr[dq.back()] <= arr[i]) {
-                dq.pop_back();
-            }
+            while (!dq.empty() && i-dq.front() >= k) dq.pop_front();
+            while (!dq.empty() && nums[i] >= nums[dq.back()]) dq.pop_back();
             dq.push_back(i);
-            if (i >= k-1) res.push_back(arr[dq.front()]);
+            if (i >= k-1) res.push_back(nums[dq.front()]);
         }
         return res;
     }
