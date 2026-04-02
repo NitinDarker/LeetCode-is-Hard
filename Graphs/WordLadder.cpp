@@ -5,33 +5,31 @@ using namespace std;
 class Solution {
   public:
     int ladderLength(string beginWord, string endWord, vector<string> &wordList) {
-        int len = beginWord.length();
-        unordered_set<string> words;
-        for (string s : wordList) {
-            words.insert(s);
-        }
+        set<string> st(wordList.begin(), wordList.end());
         queue<pair<string, int>> q;
         q.push({beginWord, 1});
+
+        // BFS
         while (!q.empty()) {
-            string cur = q.front().first;
-            int dist = q.front().second;
-            q.pop();
-            if (cur == endWord) {
-                return dist;
-            }
-            for (int i = 0; i < len; i++) {
-                char ch = 'a';
-                string newWord = cur;
-                while (ch <= 'z') {
-                    newWord[i] = ch;
-                    if (words.count(newWord) != 0) {
-                        q.push({newWord, dist+1});
-                        words.erase(newWord);
+            auto it = q.front(); q.pop();
+            string node = it.first;
+            int l = it.second; 
+
+            for (int i = 0; i < node.length(); i++) {
+                string word = node;
+
+                for (int j = 0; j < 26; j++) {
+                    word[i] = j + 'a';
+
+                    if (st.count(word) > 0) {
+                        q.push({word, l+1});
+                        st.erase(word);
+                        if (word == endWord) return l+1;
                     }
-                    ch++;
                 }
             }
         }
+
         return 0;
     }
 };
