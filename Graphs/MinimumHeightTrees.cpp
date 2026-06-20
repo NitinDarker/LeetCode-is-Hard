@@ -2,41 +2,50 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// Using Topological Sort -> Kahn's Algorithm
 class Solution {
   public:
-    vector<int> minHeightRoot(int V, vector<vector<int>> &edges) {
-        if (V == 1) return {0};
-        vector<vector<int>> graph(V);
-        vector<int> degree(V, 0);
-        for (vector<int> &edg : edges) {
-            graph[edg[0]].push_back(edg[1]);
-            graph[edg[1]].push_back(edg[0]);
-            degree[edg[0]]++;
-            degree[edg[1]]++;
+    vector<int> findMinHeightTrees(int n, vector<vector<int>> &edges) {
+        if (n == 1) return {0};
+        vector<vector<int>> graph(n);
+        vector<int> degree(n, 0);
+
+        for (auto &edge : edges) {
+            int u = edge[0], v = edge[1];
+            graph[u].push_back(v);
+            graph[v].push_back(u);
+            degree[u]++;
+            degree[v]++;
         }
-        
-        int remNodes = V;
+
+        int leftNodes = n;
         queue<int> q;
-        for (int i = 0; i < V; i++) {
-            if (degree[i] == 1) q.push(i);
+        for (int i = 0; i < n; i++) {
+            if (degree[i] <= 1) q.push(i);
         }
-        while (!q.empty() && remNodes > 2) {
+
+        // BFS -> Level Order Traversal
+        while (!q.empty()) {
+            if (leftNodes <= 2) break;
             int size = q.size();
-            remNodes -= size;
+
             for (int i = 0; i < size; i++) {
-                int node = q.front();
+                int node = q.front(); q.pop();
+                leftNodes--;
+    
                 for (int nei : graph[node]) {
-                    degree[nei]--;
-                    if (degree[nei] == 1) q.push(nei);
+                    if (--degree[nei] == 1) {
+                        q.push(nei);
+                    }
                 }
-                q.pop();
             }
         }
-        vector<int> root;
+
+        vector<int> res;
         while (!q.empty()) {
-            root.push_back(q.front());
+            res.push_back(q.front());
             q.pop();
         }
-        return root;
+        return res;
     }
 };
