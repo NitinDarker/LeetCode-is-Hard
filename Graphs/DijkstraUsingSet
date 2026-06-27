@@ -1,0 +1,39 @@
+// https://www.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  public:
+    vector<int> dijkstra(int V, vector<vector<int>> &edges, int src) {
+        vector<vector<pair<int, int>>> graph(V);
+        for (auto &edge : edges) {
+            int u = edge[0], v = edge[1], c = edge[2];
+            graph[u].push_back({v, c});
+            graph[v].push_back({u, c});
+        }
+
+        // st <- {cost, node}
+        set<pair<int, int>> st;
+        vector<int> dist(V, 1e9);
+        st.insert({0, src});
+        dist[src] = 0;
+
+        while (!st.empty()) {
+            auto it = *(st.begin());
+            int cost = it.first;
+            int node = it.second;
+            st.erase(it);
+
+            for (auto &[nei, weight] : graph[node]) {
+                if (cost + weight < dist[nei]) {
+                    if (dist[nei] != 1e9) {
+                        st.erase({dist[nei], nei});
+                    }
+                    dist[nei] = cost + weight;
+                    st.insert({cost + weight, nei});
+                }
+            }
+        }
+        return dist;
+    }
+};
