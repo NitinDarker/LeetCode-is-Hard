@@ -1,18 +1,17 @@
 // https://www.geeksforgeeks.org/problems/isomorphic-strings-1587115620/1
-#include <bits/stdc++.h>
-using namespace std;
-
 class Solution {
-  public:
-    bool areIsomorphic(string &s1, string &s2) {
-        int n = s1.length();
-        vector<int> map(26, -1);
-        vector<int> vis(26, 0);
+public:
+    bool isIsomorphic(string s, string t) {
+        if (s.length() != t.length()) return false;
+        int n = s.length();
+        unordered_map<char, char> mpp;
+        unordered_set<char> vis;
         for (int i = 0; i < n; i++) {
-            int p = s1[i] - 'a', q = s2[i] - 'a';
-            if ((map[p] == -1 && vis[q] == 1) || (map[p] != -1 && map[p] != q)) return false;
-            map[p] = q;
-            vis[q] = 1;
+            if (mpp.count(s[i]) && mpp[s[i]] != t[i]) return false;
+            if (mpp.count(s[i]) && mpp[s[i]] == t[i]) continue;
+            if (vis.count(t[i])) return false;
+            mpp[s[i]] = t[i];
+            vis.insert(t[i]);
         }
         return true;
     }
